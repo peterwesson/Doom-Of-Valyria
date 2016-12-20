@@ -1,0 +1,7 @@
+﻿@using GuildWars2.Models.Guilds
+
+@model GuildEmblem
+
+<img style="-webkit-mask-image: url('@Model.Background.BackgroundInfo.Layers[0]'); background-color: @(Model.Background.ColorDetails[0].Cloth.HexColor); -webkit-mask-size: cover; width: inherit; height: inherit;" />
+<img style="-webkit-mask-image: url('@Model.Foreground.ForegroundInfo.Layers[1]'); background-color: @(Model.Foreground.ColorDetails[0].Cloth.HexColor); -webkit-mask-size: cover; width: inherit; height: inherit; position: absolute; top: 0" />
+<img style="-webkit-mask-image: url('@Model.Foreground.ForegroundInfo.Layers[2]'); background-color: @(Model.Foreground.ColorDetails[1].Cloth.HexColor); -webkit-mask-size: cover; width: inherit; height: inherit; position: absolute; top: 0" />

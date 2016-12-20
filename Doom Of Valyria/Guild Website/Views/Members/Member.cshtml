@@ -1,0 +1,25 @@
+﻿@using GuildWebsite.Models.ViewModels.Members;
+
+@model MemberViewModel
+
+@{
+    ViewBag.Title = "Members";
+}
+
+<div class="row">
+    <h2>@Model.AccountInfo.Name</h2>
+
+    @if (Model.AccountInfo.Access == GuildWars2.Models.Account.Access.HeartOfThorns)
+    {
+        var masteryLevel = Model.AccountInfo.Masteries.Sum(mastery => mastery.Mastery.Levels.Where((level, index) => index <= mastery.Level).Sum(level => level.PointCost));
+        @: Mastery Points: @masteryLevel
+    }
+
+
+    @foreach (var character in Model.Characters)
+    {
+        <div>
+            <h4>@character.Name - Lvl @character.Level @character.Profession</h4>
+        </div>
+    }
+</div>

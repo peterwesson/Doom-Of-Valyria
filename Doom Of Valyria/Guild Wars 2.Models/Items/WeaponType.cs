@@ -1,0 +1,29 @@
+﻿namespace GuildWars2.Models.Items
+{
+    public enum WeaponType
+    {
+        Axe,
+        Dagger,
+        Mace,
+        Pistol,
+        Scepter,
+        Sword,
+        Focus,
+        Shield,
+        Torch,
+        Warhorn,
+        Greatsword,
+        Hammer,        
+        LongBow,      
+        Rifle,
+        Staff,
+        ShortBow,
+        Harpoon,
+        Speargun,             
+        Trident,
+        LargeBundle,
+        SmallBundle,
+        Toy,
+        TwoHandedToy
+    }
+}

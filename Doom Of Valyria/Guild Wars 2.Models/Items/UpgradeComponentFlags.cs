@@ -1,0 +1,29 @@
+﻿namespace GuildWars2.Models.Items
+{
+    public enum UpgradeComponentFlags
+    {
+        Axe,
+        Dagger,
+        Focus,
+        Greatsword,
+        Hammer,
+        Harpoon,
+        LongBow,
+        Mace,
+        Pistol,
+        Rifle,
+        Scepter,
+        Shield,
+        ShortBow,
+        Speargun,
+        Staff,
+        Sword,
+        Torch,
+        Trident,
+        Warhorn,
+        HeavyArmor,
+        MediumArmor,
+        LightArmor,
+        Trinket
+    }
+}

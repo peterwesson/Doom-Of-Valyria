@@ -1,0 +1,17 @@
+﻿@using GuildWebsite.Models;
+
+@model CharactersViewModel
+
+@{
+    ViewBag.Title = "Characters";
+}
+
+
+
+<div id="characters"></div>
+
+@section scripts
+{
+
+    <script src="@Url.Content("~/Scripts/React/Characters.jsx")"></script>
+}

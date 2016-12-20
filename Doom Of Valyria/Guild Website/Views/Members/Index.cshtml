@@ -1,0 +1,23 @@
+﻿@using GuildWars2.Models.Guilds
+
+@model List<GuildMember>
+
+@{
+    ViewBag.Title = "Members";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Guild Members</h2>
+        <ul>
+            @foreach (var member in Model)
+            {
+                <li>
+                    <a href="@($"../Members/Member?id={member.Name}")">
+                        @member.Name - <i>@member.Rank</i>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
