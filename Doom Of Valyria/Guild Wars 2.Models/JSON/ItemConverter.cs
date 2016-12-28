@@ -78,7 +78,7 @@ namespace GuildWars2.Models.JSON
                     { "type", "subtype" },
                     { "description", "subdescription" },
                     { "name", "subname" },
-                    { "flag", "subflag" }
+                    { "flags", "subflags" }
                 }).CreateReader(), target);
             }
 

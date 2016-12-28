@@ -543,6 +543,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Global\Global.cs" />
+    <Compile Include="Global\GenericCollection.cs" />
+    <Compile Include="Helpers\CharacterHelper.cs" />
+    <Compile Include="Helpers\CustomEnumHelper.cs" />
+    <Compile Include="Helpers\ItemHelper.cs" />
+    <Compile Include="Helpers\SkillHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -556,8 +562,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\banner.jpg" />
-    <Content Include="Content\Images\logo.png" />
     <Content Include="Content\Images\spinner.gif" />
+    <Content Include="Content\Images\tooltip-background.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -606,8 +612,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
@@ -619,7 +623,6 @@
     <Content Include="Views\Manage\SetPassword.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Characters\Index.cshtml" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
     <Content Include="Scripts\React\Characters.jsx" />
@@ -627,10 +630,17 @@
     <Content Include="Views\Members\Index.cshtml" />
     <Content Include="Views\Members\Member.cshtml" />
     <Content Include="Views\Shared\_GuildEmblemPartial.cshtml" />
+    <Content Include="Views\Members\Character.cshtml" />
+    <Content Include="Views\Home\Twitch.cshtml" />
+    <Content Include="Views\Shared\_SkillPartial.cshtml" />
+    <Content Include="Views\Shared\_WeaponSkillSetPartial.cshtml" />
+    <Content Include="Views\Shared\_ItemPartial.cshtml" />
+    <Content Include="Views\Shared\_SkillFactPartial.cshtml" />
+    <Content Include="Views\Shared\_ToolTipIconPartial.cshtml" />
+    <Content Include="Views\Shared\_EquipmentItemPartial.cshtml" />
+    <Content Include="Views\Shared\_UpgradeComponentPartial.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Base\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>

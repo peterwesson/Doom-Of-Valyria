@@ -3,7 +3,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
-using System.Linq;
 using System.Collections.Specialized;
 using System.Collections.Generic;
 
@@ -14,6 +13,7 @@ using GuildWars2.Models.Core;
 using GuildWars2.Models.Items;
 using GuildWars2.Models.Skins;
 using GuildWars2.Models.Guilds;
+using GuildWars2.Models.Skills;
 
 namespace GuildWars2.API
 {
@@ -24,14 +24,19 @@ namespace GuildWars2.API
         protected HttpClient HttpClient { get; set; }
         protected string APIkey { get; set; }
 
-        public GuildWars2API(string apiKey)
+        public GuildWars2API(string apiKey = null)
         {
             APIkey = apiKey;
+
             HttpClient = new HttpClient();
             HttpClient.BaseAddress = new Uri(baseAddress);
             HttpClient.DefaultRequestHeaders.Accept.Clear();
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            HttpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {APIkey}");
+
+            if (apiKey != null)
+            {
+                HttpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {APIkey}");
+            }            
         }
 
         public async Task<IEnumerable<Character>> GetCharacters(string apiKey = null)
@@ -45,24 +50,7 @@ namespace GuildWars2.API
 
             var characters = await Task.WhenAll(tasks);
 
-            var itemIds = characters.SelectMany(character => character.Equipment).Select(equipmentItem => equipmentItem.ItemId).ToList();
-            var skinIds = characters.SelectMany(character => character.Equipment).Where(equipmentItem => equipmentItem.SkinId.HasValue).Select(equipmentItem => equipmentItem.SkinId.Value).ToList();
-
-            var itemsTask = GetItems(itemIds);
-            var skinsTask = GetSkins(skinIds);
-
-            await Task.WhenAll(new List<Task>{ itemsTask, skinsTask });
-
-            var items = itemsTask.Result;
-            var skins = skinsTask.Result;
-
-            foreach (var equipmentItem in characters.SelectMany(character => character.Equipment))
-            {
-                equipmentItem.Item = items.FirstOrDefault(item => item.Id == equipmentItem.ItemId);
-                equipmentItem.Skin = skins.FirstOrDefault(skin => skin.Id == equipmentItem.SkinId);
-            }
-
-            return characters.ToList();
+            return characters;
         }
 
         public async Task<TokenInfo> GetTokenInfo(string apiKey = null)
@@ -79,11 +67,14 @@ namespace GuildWars2.API
             return account;
         }
 
-        public async Task<IEnumerable<Mastery>> GetMasteries()
+        public async Task<Mastery> GetMastery(int id)
         {
-            var masteryIds = await GetAsync<List<int>>("/v2/masteries");
+            return await GetAsync<Mastery>($"/v2/masteries/{id}");
+        }
 
-            return await GetAsync<IEnumerable<Mastery>>("/v2/masteries", new { ids = masteryIds });
+        public async Task<IEnumerable<Mastery>> GetMasteries(List<int> ids)
+        {
+            return await GetAsync<IEnumerable<Mastery>>("/v2/masteries", new { ids });
         }
 
         public async Task<IEnumerable<string>> GetCharacterNames(string apiKey = null)
@@ -96,55 +87,54 @@ namespace GuildWars2.API
             return await GetAsync<Character>($"/v2/characters/{characterName}", new { access_control = apiKey });
         }
 
-        public async Task<IEnumerable<EquipmentItem>> GetCharacterEquipment(string characterName, string apiKey = null)
+        public async Task<ProfessionInfo> GetProfession(string id)
         {
-            return (await GetAsync<Equipment>($"/v2/characters/{characterName}/equipment", new { access_control = apiKey })).EquipmentItems;
+            return await GetAsync<ProfessionInfo>($"/v2/professions/{id}");
         }
 
-        public async Task<Item> GetItem(int id, string apiKey = null)
+        public async Task<IEnumerable<ProfessionInfo>> GetProfessions(List<int> ids)
+        {
+            return await GetAsync<IEnumerable<ProfessionInfo>>("/v2/professions", new { ids });
+        }
+
+        public async Task<Skill> GetSkill(int id)
+        {
+            return await GetAsync<Skill>($"/v2/skills/{id}");
+        }
+
+        public async Task<IEnumerable<Skill>> GetSkills(List<int> ids)
+        {
+            return await GetAsync<IEnumerable<Skill>>("/v2/skills", new { ids });
+        }
+
+        public async Task<Item> GetItem(int id)
         {
             return await GetAsync<Item>($"/v2/items/{id}");
         }
 
-        public async Task<IEnumerable<Item>> GetItems(IEnumerable<int> ids, string apiKey = null)
+        public async Task<IEnumerable<Item>> GetItems(List<int> ids)
         {
-            return await GetAsync<IEnumerable<Item>>($"/v2/items", new { ids = ids });
+            return await GetAsync<IEnumerable<Item>>("/v2/items", new { ids });
         }
 
-        public async Task<Skin> GetSkin(int id, string apiKey = null)
+        public async Task<Skin> GetSkin(int id)
         {
             return await GetAsync<Skin>($"/v2/skins/{id}");
         }
 
-        public async Task<IEnumerable<Skin>> GetSkins(IEnumerable<int> ids, string apiKey = null)
+        public async Task<IEnumerable<Skin>> GetSkins(List<int> ids)
         {
-            return await GetAsync<IEnumerable<Skin>>($"/v2/skins", new { ids = ids });
+            return await GetAsync<IEnumerable<Skin>>("/v2/skins", new { ids });
         }
 
-        public async Task<IEnumerable<Color>> GetColors()
+        public async Task<Color> GetColor(int id)
         {
-            var colorIds = await GetAsync<IEnumerable<int>>("/v2/colors");
+            return await GetAsync<Color>($"/v2/colors/{id}");
+        }
 
-            var colorsTaken = 0;
-            var colors = new List<Color>();
-            var colorTasks = new List<Task<IEnumerable<Color>>>();
-
-            while (colorsTaken < colorIds.Count())
-            {
-                var reducedColorIds = colorIds.Skip(colorsTaken).Take(20);
-                colorsTaken += reducedColorIds.Count();
-
-                colorTasks.Add(GetAsync<IEnumerable<Color>>("/v2/colors", new { ids = reducedColorIds }));
-            }
-
-            await Task.WhenAll(colorTasks);
-
-            foreach (var colorTask in colorTasks)
-            {
-                colors.AddRange(colorTask.Result);
-            }            
-
-            return colors;
+        public async Task<IEnumerable<Color>> GetColors(List<int> ids)
+        {
+            return await GetAsync<IEnumerable<Color>>("/v2/colors", new { ids });
         }
 
         public async Task<Guild> GetGuild(string id, string apiKey = null)

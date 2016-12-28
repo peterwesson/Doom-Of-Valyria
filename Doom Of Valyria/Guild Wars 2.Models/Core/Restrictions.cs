@@ -13,7 +13,7 @@
         Mesmer,
         Necromancer,
         Ranger,
-        Theif,
+        Thief,
         Warrior
     }
 }

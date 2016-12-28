@@ -1,0 +1,31 @@
+﻿@using GuildWars2.Models.Items;
+@using GuildWebsite.Helpers;
+
+@model  UpgradeComponent
+
+<div class="tooltip-upgrade">
+    <img src="@Model.IconUrl" class="tooltip-icon" />
+    <span>@Model.Name</span>
+
+    @if (Model.InfixUpgrade != null)
+    {
+        foreach (var attribute in Model.InfixUpgrade.Attributes)
+        {
+            <div>
+                @($"+{attribute.Modifier} {CustomEnumHelper.GetEnumName(attribute.Type)}")
+            </div>
+        }
+
+        if (Model.Bonuses != null)
+        {
+            int i = 0;
+            foreach (var bonus in Model.Bonuses)
+            {
+                i = i + 1;
+                <div>
+                    (@i) @ItemHelper.StripHTML(bonus)
+                </div>
+            }
+        }
+    }
+</div>

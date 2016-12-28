@@ -6,7 +6,7 @@ using GuildWars2.Models.Core;
 
 namespace GuildWars2.Models.Items
 {
-    public class Weapon : Item
+    public class Weapon : Item, IInfixUpgradeable
     {
         [JsonProperty("subtype")]
         public WeaponType WeaponType { get; set; }
@@ -35,7 +35,7 @@ namespace GuildWars2.Models.Items
         [JsonProperty("secondary_suffix_item_Id")]
         public int? SecondarySuffixItemId { get; set; }
 
-        [JsonProperty("stat_choises")]
+        [JsonProperty("stat_choices")]
         public List<string> StatChoices { get; set; }
     }
 }

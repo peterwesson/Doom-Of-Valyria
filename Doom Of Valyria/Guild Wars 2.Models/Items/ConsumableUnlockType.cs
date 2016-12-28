@@ -11,6 +11,7 @@
         Dye,
         Outfit,
         GliderSkin,
-        Champion
+        Champion,
+        SharedSlot
     }
 }

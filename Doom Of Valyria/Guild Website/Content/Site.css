@@ -23,6 +23,10 @@ textarea {
     max-width: 280px;
 }
 
+body {
+    overflow-x: hidden;
+}
+
 .banner {
     height: 100px;
     background-image: url('Images/banner.jpg');
@@ -47,12 +51,119 @@ textarea {
     }
 }
 
-.spinner {
-    content:url('Images/spinner.gif');
+.tooltip-group {
+    width: 300px;
+    position: absolute;
+    z-index: 1;
+    bottom: 32px;
+    left: 32px;
+    visibility: hidden;
+}
+.tooltip-panel {
+    background-image: url('Images/tooltip-background.png');
+    color: #f0f0f0;
+    padding: 8px;
+    margin-top: 8px;
 }
 
-.item {
+.item, .skill {
     width: 64px;
     height: 64px;
     display: inline-block;
+    background-size: cover;
+    position: relative;
+}
+
+.skill:hover .tooltip-group, .item:hover .tooltip-group {
+    visibility: visible;    
+}
+
+.tooltip-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.tooltip-icon-small {
+    width: 16px;
+    height: 16px;
+}
+
+.tooltip-title {
+    color: #ffcc77;
+}
+
+.tooltip-fact {
+    color: #aaa;
+    padding-top: 6px;
+}
+
+.tooltip-fact-text {
+    padding-left: 4px;
+    vertical-align: middle;
+    margin-top: -8px;
+}
+
+.tooltip-category {
+    color: #ffcc77;
+}
+
+.tooltip-description {
+    color: aquamarine;
+    font-size: 12px;
+}
+
+.tooltip-icon-container {
+    position: relative;
+}
+
+.tooltip-icon-subscript {
+    position: absolute;
+    bottom: -8px;
+    right: 6px;
+    font-size: 12px;
+    color: #0f0;
+}
+
+.rarity-junk {
+    color: #aaa;
+}
+
+.rarity-basic {
+    color: #fff;
+}
+
+.rarity-fine {
+    color: #62A4DA;
+}
+
+.rarity-masterwork {
+    color: #0f0;
+}
+
+.rarity-rare {
+    color: #fcd00b;
+}
+
+.rarity-exotic {
+    color: #ffa405;
+}
+
+.rarity-ascended {
+    color: #fb3e8d;
+}
+
+.rarity-legendary {
+    color: #8C33ED;
+}
+
+.tooltip-value {
+    color: #0f0;
+}
+
+.tooltip-upgrade {
+    color: #62A4DA;
+}
+
+.tooltip-binding {
+    color: #fff;
 }

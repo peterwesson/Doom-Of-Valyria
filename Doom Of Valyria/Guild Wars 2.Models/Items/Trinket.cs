@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using Newtonsoft.Json;
 
 namespace GuildWars2.Models.Items
 {
-    public class Trinket : Item
+    public class Trinket : Item, IInfixUpgradeable
     {
         [JsonProperty("subtype")]
         public TrinketType TrinketType { get; set; }
@@ -13,7 +14,7 @@ namespace GuildWars2.Models.Items
         public List<InfusionSlot> InfusionSlots { get; set; }
 
         [JsonProperty("infix_upgrade")]
-        public InfixUpgrade InfixUgrade { get; set; }
+        public InfixUpgrade InfixUpgrade { get; set; }
 
         [JsonProperty("suffix_item_id")]
         public int? SuffixItemId { get; set; }

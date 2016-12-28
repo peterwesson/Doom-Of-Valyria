@@ -2,6 +2,7 @@
 {
     public enum WeaponType
     {
+        None = 0,
         Axe,
         Dagger,
         Mace,
@@ -19,11 +20,13 @@
         Staff,
         ShortBow,
         Harpoon,
-        Speargun,             
+        Speargun,
+        Spear,             
         Trident,
         LargeBundle,
         SmallBundle,
         Toy,
-        TwoHandedToy
+        ToyTwoHanded,
+        Nothing
     }
 }

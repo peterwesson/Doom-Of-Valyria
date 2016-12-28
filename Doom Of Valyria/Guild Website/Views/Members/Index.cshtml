@@ -9,15 +9,27 @@
 <div class="row">
     <div class="col-md-4">
         <h2>Guild Members</h2>
-        <ul>
-            @foreach (var member in Model)
+        
+            @foreach (var rank in Model.GroupBy(member => member.Rank))
             {
-                <li>
-                    <a href="@($"../Members/Member?id={member.Name}")">
-                        @member.Name - <i>@member.Rank</i>
-                    </a>
-                </li>
+                <i>@rank.Key</i>
+                <ul>
+                    @foreach (var member in rank)
+                    {
+                        <li>
+                            @if (member.Name == "Mythrim.6581")
+                            {
+                                <a href="@($"../Members/Member?id={member.Name}")">
+                                    @member.Name
+                                </a>
+                            }
+                            else
+                            {
+                                @member.Name
+                            }                            
+                        </li>
+                    }                    
+                </ul>
             }
-        </ul>
     </div>
 </div>

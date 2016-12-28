@@ -24,7 +24,7 @@ namespace GuildWars2.Models.Items
         public EquipmentStats Stats { get; set; }
 
         [JsonProperty("upgrades")]
-        public List<string> UpgradeIds { get; set; }
+        public List<int> UpgradeIds { get; set; }
 
         [JsonProperty("binding")]
         public Binding Binding { get; set; }
@@ -35,5 +35,9 @@ namespace GuildWars2.Models.Items
         public Item Item { get; set; }
 
         public Skin Skin{ get; set; }
+
+        public List<UpgradeComponent> Upgrades { get; set; }
+
+        public List<UpgradeComponent> Infusions { get; set; }
     }
 }

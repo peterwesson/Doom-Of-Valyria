@@ -12,14 +12,19 @@
     @if (Model.AccountInfo.Access == GuildWars2.Models.Account.Access.HeartOfThorns)
     {
         var masteryLevel = Model.AccountInfo.Masteries.Sum(mastery => mastery.Mastery.Levels.Where((level, index) => index <= mastery.Level).Sum(level => level.PointCost));
-        @: Mastery Points: @masteryLevel
+        @: <p>Mastery Points: @masteryLevel</p>
     }
 
 
     @foreach (var character in Model.Characters)
     {
         <div>
-            <h4>@character.Name - Lvl @character.Level @character.Profession</h4>
+            <h4>               
+                <img src="@character.ProfessionInfo.Icon" /> 
+                <a href="@($"../../Members/Character?id={character.Name}")">
+                    @character.Name (@character.Level)
+                </a>
+            </h4>
         </div>
     }
 </div>

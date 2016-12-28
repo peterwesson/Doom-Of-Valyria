@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using System.Configuration;
 
 namespace GuildWebsite.Controllers
 {
@@ -9,18 +10,10 @@ namespace GuildWebsite.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult Twitch()
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            var twitchChannel = ConfigurationManager.AppSettings["TwitchChannel"];
+            return View("Twitch", null, twitchChannel);
         }
     }
 }

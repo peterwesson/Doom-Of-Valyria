@@ -1,0 +1,20 @@
+﻿@using GuildWars2.Models.Items;
+@using GuildWebsite.Helpers;
+
+@model Item
+
+<div class="item" style="background-image: url('@(Model.IconUrl)')">
+    <div class="tooltip-group">
+        <div class="tooltip-panel">
+            <div style="padding-bottom: 4px">
+                <span class="tooltip-title">
+                    @Model.Name
+                </span>
+            </div>
+
+            <div class="tooltip-description">
+                @MvcHtmlString.Create(ItemHelper.StripHTML(Model.Description).Replace('\n'.ToString(), "<br />"))
+            </div>
+        </div>
+    </div>    
+</div>

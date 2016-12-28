@@ -3,8 +3,6 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
-using GuildWebsite.Models.Global;
-
 namespace GuildWebsite
 {
     public class GuildWebsite : HttpApplication
@@ -15,10 +13,6 @@ namespace GuildWebsite
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
-            Global = new Global();
         }
-
-        public static Global Global { get; set; } 
     }
 }

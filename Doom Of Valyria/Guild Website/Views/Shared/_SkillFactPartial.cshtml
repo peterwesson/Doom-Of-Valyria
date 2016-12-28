@@ -1,0 +1,83 @@
+﻿@using GuildWars2.Models.Skills;
+
+@using GuildWebsite.Helpers;
+
+@model SkillFact
+
+@{ 
+    string text;
+    int stackCount = 0;
+
+    switch (Model.Type)
+    {
+        case SkillFactType.AttributeAdjust:
+            var attributeFact = Model as AttributeAdjustSkillFact;
+            text = $"{attributeFact.Text}: {attributeFact.Value:n0}";
+            break;
+        case SkillFactType.Buff:
+            var buffFact = Model as BuffSkillFact;
+            var durationString = buffFact.Duration > 0 ? $" ({buffFact.Duration}s)" : string.Empty;
+            text = $"{CustomEnumHelper.GetEnumName(buffFact.Status)}{durationString}: {buffFact.Description}";
+            stackCount = buffFact.ApplyCount;
+            break;
+        case SkillFactType.ComboField:
+            var comboFieldFact = Model as ComboFieldSkillFact;
+            text = $"{comboFieldFact.Text}: {comboFieldFact.Fieldtype.ToString()}";
+            break;
+        case SkillFactType.ComboFinisher:
+            var comboFinisherFact = Model as ComboFinisherSkillFact;
+            text = $"{comboFinisherFact.Text}: {comboFinisherFact.FinisherType.ToString()}";
+            break;
+        case SkillFactType.Damage:
+            var damageFact = Model as DamageSkillFact;
+            var damage = damageFact.DamageMultiplier * 1000;
+            var hitString = damageFact.HitCount > 1 ? $" ({damageFact.HitCount}x)" : string.Empty;
+            text = $"{damageFact.Text}{hitString}: {damage:n0}";
+            break;
+        case SkillFactType.Duration:
+            var durationFact = Model as DurationSkillFact;
+            text = $"{durationFact.Text}: {durationFact.Duration}s";
+            break;
+        case SkillFactType.Distance:
+            var distanceFact = Model as DistanceSkillFact;
+            text = $"{distanceFact.Text}: {distanceFact.Distance:n0}";
+            break;
+        case SkillFactType.NoData:
+            var noDataFact = Model as NoDataSkillFact;
+            text = $"{noDataFact.Text}";
+            break;
+        case SkillFactType.Number:
+            var numberFact = Model as NumberSkillFact;
+            text = $"{numberFact.Text}: {numberFact.Value:n0}";
+            break;
+        case SkillFactType.Percent:
+            var percentFact = Model as PercentSkillFact;
+            text = $"{percentFact.Text}: {percentFact.Percent}%";
+            break;
+
+        case SkillFactType.Radius:
+            var radiusFact = Model as RadiusSkillFact;
+            text = $"{radiusFact.Text}: {radiusFact.Distance:n0}";
+            break;
+        case SkillFactType.Range:
+            var rangeFact = Model as RangeSkillFact;
+            text = $"{rangeFact.Text}: {rangeFact.Value:n0}";
+            break;
+        case SkillFactType.Time:
+            var timeFact = Model as TimeSkillFact;
+            text = $"{timeFact.Text}: {timeFact.Duration}s";
+            break;
+        case SkillFactType.Unblockable:
+            var unbloackableFact = Model as UnblockableSkillFact;
+            text = $"{unbloackableFact.Text}";
+            break;
+        default:
+            text = Model.Text;
+            break;
+    }
+}
+
+<div class="tooltip-fact">
+    @Html.Partial("_ToolTipIconPartial", Tuple.Create(Model.Icon, stackCount))
+    <span class="skill-tooltip-fact-text">@text</span>
+</div>

@@ -1,0 +1,148 @@
+﻿@using GuildWars2.Models.Items;
+@using GuildWebsite.Helpers;
+
+@model EquipmentItem
+
+@{ 
+    var name = Model.Skin?.Name ?? Model.Item.Name;
+    var description = Model.Skin?.Description ?? Model.Item.Description;
+    var iconUrl = Model.Skin?.IconUrl ?? Model.Item.IconUrl;
+    var rarity = Model.Item.Rarity;
+}
+
+<div class="item" style="background-image: url('@(iconUrl)')">
+    <div class="tooltip-group">
+        <div class="tooltip-panel">
+            <div style="padding-bottom: 4px">
+                <span class="rarity-@rarity.ToString().ToLowerInvariant()">
+                    @name
+                </span>
+            </div>
+
+            @if(Model.Item is Weapon)
+            {
+                var weapon = Model.Item as Weapon;
+
+                @:Weapon Strength: 
+                @:<span class="tooltip-value">@($"{weapon.MinPower:n0} - {weapon.MaxPower:n0}")</span>
+            }
+
+            @if (Model.Item is IDefense)
+            {
+                var defense = Model.Item as IDefense;
+
+                @:Defense:
+                @:<span class="tooltip-value">@defense.Defense</span>
+            }
+
+            @if (Model.Item is IInfixUpgradeable)
+            {
+                var infixUpgradeable = Model.Item as IInfixUpgradeable;
+
+                if (infixUpgradeable.InfixUpgrade != null && infixUpgradeable.InfixUpgrade.Attributes != null && infixUpgradeable.InfixUpgrade.Attributes.Any())
+                {
+                    foreach (var attribute in infixUpgradeable.InfixUpgrade.Attributes)
+                    {
+                        <div class="tooltip-value">
+                            @($"+{attribute.Modifier} {CustomEnumHelper.GetEnumName(attribute.Type)}")
+                        </div>
+                    }
+
+                    <br />
+                }
+            }
+            @if (Model.Stats != null)
+            {
+                if (Model.Stats.Attributes.Power > 0)
+                {
+                    <div class="tooltip-value">
+                        @($"+{Model.Stats.Attributes.Power} Power")
+                    </div>
+                }
+                if (Model.Stats.Attributes.Precision > 0)
+                {
+                    <div class="tooltip-value">
+                        @($"+{Model.Stats.Attributes.Precision} Precision")
+                    </div>
+                }
+                if (Model.Stats.Attributes.Toughness > 0)
+                {
+                    <div class="tooltip-value">
+                        @($"+{Model.Stats.Attributes.Toughness} Toughness")
+                    </div>
+                }
+                if (Model.Stats.Attributes.Vitality > 0)
+                {
+                    <div class="tooltip-value">
+                        @($"+{Model.Stats.Attributes.Vitality} Vitality")
+                    </div>
+                }
+                if (Model.Stats.Attributes.ConditionDamage > 0)
+                {
+                    <div class="tooltip-value">
+                        @($"+{Model.Stats.Attributes.ConditionDamage} Condition Damage")
+                    </div>
+                }
+                if (Model.Stats.Attributes.ConditionDuration > 0)
+                {
+                    <div class="tooltip-value">
+                        @($"+{Model.Stats.Attributes.ConditionDuration} Expertise")
+                    </div>
+                }
+                if (Model.Stats.Attributes.CritDamage > 0)
+                {
+                    <div class="tooltip-value">
+                        @($"+{Model.Stats.Attributes.CritDamage} Ferocity")
+                    </div>
+                }
+                if (Model.Stats.Attributes.BoonDuration > 0)
+                {
+                    <div class="tooltip-value">
+                        @($"+{Model.Stats.Attributes.BoonDuration} Concentration")
+                    </div>
+                }
+                if (Model.Stats.Attributes.HealingPower > 0)
+                {
+                    <div class="tooltip-value">
+                        @($"+{Model.Stats.Attributes.HealingPower} Healing Power")
+                    </div>
+                }
+                <br />
+            }
+
+            @if (Model.Upgrades != null)
+            {
+                foreach (var upgrade in Model.Upgrades)
+                {
+                    @Html.Partial("_UpgradeComponentPartial", upgrade)
+                    <br />
+                }
+            }
+
+            @if (Model.Infusions != null)
+            {
+                foreach (var infusion in Model.Infusions)
+                {
+                    @Html.Partial("_UpgradeComponentPartial", infusion)
+                }
+
+                <br />
+            }            
+
+            <div class="tooltip-description">
+                @MvcHtmlString.Create(ItemHelper.StripHTML(description).Replace('\n'.ToString(), "<br />"))
+            </div>
+            <div class="tooltip-binding">
+                @switch (Model.Binding)
+                {
+                    case Binding.Character:
+                        @:Soulbound
+                        break;
+                    case Binding.Account:
+                        @:Account Bound
+                        break;
+                }
+            </div>
+        </div>
+    </div>    
+</div>

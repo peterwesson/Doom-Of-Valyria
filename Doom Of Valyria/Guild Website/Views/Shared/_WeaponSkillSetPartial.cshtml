@@ -1,0 +1,30 @@
+﻿@using GuildWars2.Models.Skills;
+
+@model Dictionary<int, IEnumerable<Skill>>
+
+<div>
+    @if (Model.ContainsKey(0))
+    {
+        @Html.Partial("_SkillPartial", Model[0].First())
+    }
+    
+    @if (Model.ContainsKey(1))
+    {
+        @Html.Partial("_SkillPartial", Model[1].First())
+    }
+
+    @if (Model.ContainsKey(2))
+    {
+        @Html.Partial("_SkillPartial", Model[2].First())
+    }
+
+    @if (Model.ContainsKey(3))
+    {
+        @Html.Partial("_SkillPartial", Model[3].First())
+    }
+
+    @if (Model.ContainsKey(4))
+    {
+        @Html.Partial("_SkillPartial", Model[4].First())
+    }
+</div>

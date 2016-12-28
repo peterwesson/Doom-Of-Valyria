@@ -16,6 +16,9 @@ namespace GuildWars2.Models.Items
         [JsonProperty("Vitality")]
         public int Vitality { get; set; }
 
+        [JsonProperty("CritDamage")]
+        public int CritDamage { get; set; }
+
         [JsonProperty("ConditionDamage")]
         public int ConditionDamage { get; set; }
 

@@ -4,6 +4,7 @@
     {
         Heavy,
         Medium,
-        Light
+        Light,
+        Clothing
     }
 }

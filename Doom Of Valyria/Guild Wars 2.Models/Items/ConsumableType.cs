@@ -13,6 +13,7 @@
         Unlock,
         UpgradeRemoval,
         Utility,
-        TeleportToFriend
+        TeleportToFriend,
+        RandomUnlock
     }
 }

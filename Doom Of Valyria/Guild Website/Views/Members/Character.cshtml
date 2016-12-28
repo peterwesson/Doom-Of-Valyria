@@ -1,0 +1,280 @@
+﻿@using GuildWars2.Models.Core
+@using GuildWebsite.Helpers;
+@using GuildWars2.Models.Skills;
+@using GuildWars2.Models.Items;
+
+@model Character
+
+@{ 
+    ViewBag.Title = Model.Name;
+
+    var weaponSetA = SkillHelper.GetWeaponSetA(Model);
+    var weaponSetB = SkillHelper.GetWeaponSetB(Model);
+
+    var skillSetA = new Dictionary<int, IEnumerable<Skill>>();
+    var skillSetB = new Dictionary<int, IEnumerable<Skill>>();
+
+    var skillSetFire = new Dictionary<int, IEnumerable<Skill>>();
+    var skillSetWater = new Dictionary<int, IEnumerable<Skill>>();
+    var skillSetAir = new Dictionary<int, IEnumerable<Skill>>();
+    var skillSetEarth = new Dictionary<int, IEnumerable<Skill>>();
+
+    if (weaponSetA.Any())
+    {
+        if (Model.Profession != Profession.Elementalist)
+        {
+            skillSetA = SkillHelper.GetSkillSet(weaponSetA.Select(weaponSet => (weaponSet.Item as Weapon).WeaponType).ToList(), Model);
+        }
+        else
+        {
+            skillSetFire = SkillHelper.GetSkillSet(weaponSetA.Select(weaponSet => (weaponSet.Item as Weapon).WeaponType).ToList(), Model, AttunementType.Fire);
+            skillSetWater = SkillHelper.GetSkillSet(weaponSetA.Select(weaponSet => (weaponSet.Item as Weapon).WeaponType).ToList(), Model, AttunementType.Water);
+            skillSetAir = SkillHelper.GetSkillSet(weaponSetA.Select(weaponSet => (weaponSet.Item as Weapon).WeaponType).ToList(), Model, AttunementType.Air);
+            skillSetEarth = SkillHelper.GetSkillSet(weaponSetA.Select(weaponSet => (weaponSet.Item as Weapon).WeaponType).ToList(), Model, AttunementType.Earth);
+        }
+    }
+
+    if (weaponSetB.Any())
+    {
+        skillSetB = SkillHelper.GetSkillSet(weaponSetB.Select(weaponSet => (weaponSet.Item as Weapon).WeaponType).ToList(), Model);
+    }
+
+}
+
+<h2><img src="@Model.ProfessionInfo.Icon" />@Model.Name</h2>
+
+<div class="row">
+    <div>
+        Power: @CharacterHelper.CalculateAttribute(Model, AttributeType.Power)
+    </div>
+    <div>
+        Precision: @CharacterHelper.CalculateAttribute(Model, AttributeType.Precision)
+    </div>
+    <div>
+        Toughness: @CharacterHelper.CalculateAttribute(Model, AttributeType.Toughness)
+    </div>
+    <div>
+        Vitality: @CharacterHelper.CalculateAttribute(Model, AttributeType.Vitality)
+    </div>
+</div>
+
+<div class="row">
+    <h3>Skills</h3>
+    <div class="col-sm-5">
+        @if (Model.Profession == Profession.Elementalist)
+        {
+            if (weaponSetA.Any())
+            {
+                <h5>@SkillHelper.GetWeaponSetTitle(weaponSetA.Select(weaponSet => (weaponSet.Item as Weapon).WeaponType).ToList())</h5>
+                @Html.Partial("_WeaponSkillSetPartial", skillSetFire)
+                @Html.Partial("_WeaponSkillSetPartial", skillSetWater)
+                @Html.Partial("_WeaponSkillSetPartial", skillSetAir)
+                @Html.Partial("_WeaponSkillSetPartial", skillSetEarth)
+            }
+            if (weaponSetB.Any())
+            {
+                <h5>@SkillHelper.GetWeaponSetTitle(weaponSetB.Select(weaponSet => (weaponSet.Item as Weapon).WeaponType).ToList())</h5>
+                @Html.Partial("_WeaponSkillSetPartial", skillSetFire)
+                @Html.Partial("_WeaponSkillSetPartial", skillSetWater)
+                @Html.Partial("_WeaponSkillSetPartial", skillSetAir)
+                @Html.Partial("_WeaponSkillSetPartial", skillSetEarth)
+            }
+        }
+        else
+        {
+            if (weaponSetA.Any())
+            {
+                <h5>@SkillHelper.GetWeaponSetTitle(weaponSetA.Select(weaponSet => (weaponSet.Item as Weapon).WeaponType).ToList())</h5>
+                @Html.Partial("_WeaponSkillSetPartial", skillSetA)
+            }
+            if (weaponSetB.Any())
+            {
+                <h5>@SkillHelper.GetWeaponSetTitle(weaponSetB.Select(weaponSet => (weaponSet.Item as Weapon).WeaponType).ToList())</h5>
+                @Html.Partial("_WeaponSkillSetPartial", skillSetB)
+            }
+        }
+
+    </div>
+    <div class="col-sm-1">
+        <h5>Heal</h5>
+        @Html.Partial("_SkillPartial", Model.Skills.PvE.HealSkill)
+    </div>
+    <div class="col-sm-3">
+        <h5>Utilities</h5>
+        @Html.Partial("_SkillPartial", Model.Skills.PvE.UtilitySkill1)
+        @Html.Partial("_SkillPartial", Model.Skills.PvE.UtilitySkill2)
+        @Html.Partial("_SkillPartial", Model.Skills.PvE.UtilitySkill3)
+    </div>
+    <div class="col-sm-1">
+        <h5>Elite</h5>
+        @Html.Partial("_SkillPartial", Model.Skills.PvE.EliteSkill)
+    </div>
+    <div class="col-sm-2">
+    </div>
+</div>
+<div class="row">
+    <h3>Equipment</h3>
+    <div class="col-sm-12">
+        <div class="col-sm-6">
+            <h4>Weapons</h4>
+
+            @if (weaponSetA.Any())
+            {
+                <div>
+                    @if ((weaponSetA[0].Item as Weapon).WeaponType != WeaponType.None)
+                {
+                        @Html.Partial("_EquipmentItemPartial", weaponSetA[0])
+                    }
+                    else
+                    {
+                        <div class="item"></div>
+                    }
+                    @if (weaponSetA.Count > 1)
+                    {
+                        @Html.Partial("_EquipmentItemPartial", weaponSetA[1])
+                    }
+                    else
+                    {
+                        <div class="item"></div>
+                    }
+                </div>
+            }
+            @if (weaponSetB.Any())
+            {
+                <div>
+                    @if ((weaponSetB[0].Item as Weapon).WeaponType != WeaponType.None)
+                {
+                        @Html.Partial("_EquipmentItemPartial", weaponSetB[0])
+                    }
+                    else
+                    {
+                        <div class="item"></div>
+                    }
+
+                    @if (weaponSetB.Count > 1)
+                {
+                        @Html.Partial("_EquipmentItemPartial", weaponSetB[1])
+                    }
+                    else
+                    {
+                        <div class="item"></div>
+                    }
+                </div>
+            }
+        </div>
+        
+        <div class="col-sm-6">
+            <h4>Armor</h4>
+
+            @if (Model.Helm != null)
+            {
+                @Html.Partial("_EquipmentItemPartial", Model.Helm)
+            }
+            else
+            {
+                <div class="item"></div>
+            }
+
+            @if (Model.Shoulders != null)
+            {
+                @Html.Partial("_EquipmentItemPartial", Model.Shoulders)
+            }
+            else
+            {
+                <div class="item"></div>
+            }
+            @if (Model.Coat != null)
+            {
+                @Html.Partial("_EquipmentItemPartial", Model.Coat)
+            }
+            else
+            {
+                <div class="item"></div>
+            }
+
+            @if (Model.Gloves != null)
+            {
+                @Html.Partial("_EquipmentItemPartial", Model.Gloves)
+            }
+            else
+            {
+                <div class="item"></div>
+            }
+
+            @if (Model.Leggings != null)
+            {
+                @Html.Partial("_EquipmentItemPartial", Model.Leggings)
+            }
+            else
+            {
+                <div class="item"></div>
+            }
+
+            @if (Model.Boots != null)
+            {
+                @Html.Partial("_EquipmentItemPartial", Model.Boots)
+            }
+            else
+            {
+                <div class="item"></div>
+            }
+        </div>
+
+        <div class="col-sm-6">
+            <h4>Trinkets</h4>
+
+            @if (Model.Backpiece != null)
+            {
+                @Html.Partial("_EquipmentItemPartial", Model.Backpiece)
+            }
+            else
+            {
+                <div class="item"></div>
+            }
+
+            @if (Model.Accessory1 != null)
+            {
+                @Html.Partial("_EquipmentItemPartial", Model.Accessory1)
+            }
+            else
+            {
+                <div class="item"></div>
+            }
+            @if (Model.Accessory2 != null)
+            {
+                @Html.Partial("_EquipmentItemPartial", Model.Accessory2)
+            }
+            else
+            {
+                <div class="item"></div>
+            }
+
+            @if (Model.Amulet != null)
+            {
+                @Html.Partial("_EquipmentItemPartial", Model.Amulet)
+            }
+            else
+            {
+                <div class="item"></div>
+            }
+
+            @if (Model.Ring1 != null)
+            {
+                @Html.Partial("_EquipmentItemPartial", Model.Ring1)
+            }
+            else
+            {
+                <div class="item"></div>
+            }
+
+            @if (Model.Ring2 != null)
+            {
+                @Html.Partial("_EquipmentItemPartial", Model.Ring2)
+            }
+            else
+            {
+                <div class="item"></div>
+            }
+        </div>
+    </div>
+</div>

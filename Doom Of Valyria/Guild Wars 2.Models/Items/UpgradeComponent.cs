@@ -19,7 +19,7 @@ namespace GuildWars2.Models.Items
         public string Suffix { get; set; }
 
         [JsonProperty("infix_upgrade")]
-        public InfixUpgrade InfixUgrade { get; set; }
+        public InfixUpgrade InfixUpgrade { get; set; }
 
         [JsonProperty("bonuses")]
         public List<string> Bonuses { get; set; }

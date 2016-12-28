@@ -1,0 +1,14 @@
+﻿@model Tuple<string, int>
+
+@{
+    var icon = Model.Item1;
+    var stackCount = Model.Item2;
+}
+
+<span class="tooltip-icon-container">
+    <img src="@icon" class="tooltip-icon" />
+    @if (stackCount > 1)
+    {
+        <span class="tooltip-icon-subscript">@stackCount</span>
+    }
+</span>

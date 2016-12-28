@@ -1,0 +1,38 @@
+﻿@using GuildWars2.Models.Skills;
+
+@model Skill
+
+@{ 
+    var rechargeFact = Model.Facts?.FirstOrDefault(fact => fact.Type == SkillFactType.Recharge) as RechargeSkillFact;
+    var facts = Model.Facts?.Where(fact => fact.Type != SkillFactType.Recharge) ?? new List<SkillFact>();
+}
+
+<div class="skill" style="background-image: url('@(Model?.Icon)')">
+    <div class="tooltip-group">
+        <div class="tooltip-panel">
+            <div style="padding-bottom: 4px">
+                <span class="tooltip-title">
+                    @Model.Name
+                </span>
+
+                @if (rechargeFact != null)
+                {
+                    <span style="float: right">
+                        @rechargeFact.Value <img src="@rechargeFact.Icon" class="tooltip-icon-small" />
+                    </span>
+                }
+            </div>
+
+            <div>
+                @MvcHtmlString.Create(Model.Description.Replace('\n'.ToString(), "<br />"))
+            </div>
+
+            <div>
+                @foreach (var fact in facts)
+                {
+                    @Html.Partial("_SkillFactPartial", fact)
+                }
+            </div>
+        </div>
+    </div>
+</div>

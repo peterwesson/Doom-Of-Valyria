@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace GuildWars2.Models.Items
 {
-    public class Armor : Item
+    public class Armor : Item, IInfixUpgradeable, IDefense
     {
         [JsonProperty("subtype")]
         public ArmorType ArmorType { get; set; }
